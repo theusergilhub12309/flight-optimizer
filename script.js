@@ -8,23 +8,106 @@ document.addEventListener('DOMContentLoaded', function() {
     const theme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', theme);
 
-    // Airport code validation
-    const airportRegex = /^[A-Z]{3}$/;
-    
-    function validateAirportCode(input) {
-        const code = input.value.toUpperCase();
-        input.value = code;
-        const isValid = airportRegex.test(code);
-        input.classList.toggle('is-invalid', !isValid);
-        return isValid;
-    }
-
-    // Add input listeners for airport codes
+    // Setup airport inputs
     const departureInput = document.getElementById('departure');
     const arrivalInput = document.getElementById('arrival');
+    const departureAutocomplete = document.getElementById('departureAutocomplete');
+    const arrivalAutocomplete = document.getElementById('arrivalAutocomplete');
 
-    [departureInput, arrivalInput].forEach(input => {
-        input.addEventListener('input', () => validateAirportCode(input));
+    // Track selected airports
+    let selectedDeparture = null;
+    let selectedArrival = null;
+
+    function setupAirportAutocomplete(input, autocompleteContainer, onSelect) {
+        let currentFocus = -1;
+
+        input.addEventListener('input', function(e) {
+            const val = this.value.toLowerCase();
+            closeAllLists();
+
+            if (!val) { return false; }
+
+            currentFocus = -1;
+            
+            const matchingAirports = airports.filter(airport => {
+                const searchStr = `${airport.code} ${airport.city} ${airport.name}`.toLowerCase();
+                return searchStr.includes(val);
+            }).slice(0, 8); // Limit to 8 results
+
+            if (matchingAirports.length > 0) {
+                autocompleteContainer.classList.add('show');
+                matchingAirports.forEach(airport => {
+                    const div = document.createElement('div');
+                    div.className = 'airport-option';
+                    div.innerHTML = `
+                        <span class="airport-code">${airport.code}</span>
+                        <span class="airport-name">${airport.city} - ${airport.name}</span>
+                    `;
+                    div.addEventListener('click', function(e) {
+                        input.value = airport.code;
+                        onSelect(airport);
+                        closeAllLists();
+                    });
+                    autocompleteContainer.appendChild(div);
+                });
+            }
+        });
+
+        // Handle keyboard navigation
+        input.addEventListener('keydown', function(e) {
+            let x = autocompleteContainer.getElementsByClassName('airport-option');
+            if (e.keyCode == 40) { // down
+                currentFocus++;
+                addActive(x);
+            } else if (e.keyCode == 38) { // up
+                currentFocus--;
+                addActive(x);
+            } else if (e.keyCode == 13) { // enter
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+
+        function addActive(x) {
+            if (!x) return false;
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            x[currentFocus].classList.add('active');
+        }
+
+        function removeActive(x) {
+            for (let i = 0; i < x.length; i++) {
+                x[i].classList.remove('active');
+            }
+        }
+    }
+
+    function closeAllLists() {
+        departureAutocomplete.innerHTML = '';
+        arrivalAutocomplete.innerHTML = '';
+        departureAutocomplete.classList.remove('show');
+        arrivalAutocomplete.classList.remove('show');
+    }
+
+    // Close autocomplete when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.airport-autocomplete-wrapper')) {
+            closeAllLists();
+        }
+    });
+
+    // Setup autocomplete for both inputs
+    setupAirportAutocomplete(departureInput, departureAutocomplete, airport => {
+        selectedDeparture = airport;
+        departureInput.classList.remove('is-invalid');
+    });
+
+    setupAirportAutocomplete(arrivalInput, arrivalAutocomplete, airport => {
+        selectedArrival = airport;
+        arrivalInput.classList.remove('is-invalid');
     });
 
     // Theme toggle functionality
@@ -44,11 +127,16 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Validate airport codes
-        const isDepartureValid = validateAirportCode(departureInput);
-        const isArrivalValid = validateAirportCode(arrivalInput);
+        // Validate airport selection
+        if (!selectedDeparture || !selectedArrival) {
+            if (!selectedDeparture) departureInput.classList.add('is-invalid');
+            if (!selectedArrival) arrivalInput.classList.add('is-invalid');
+            return;
+        }
 
-        if (!isDepartureValid || !isArrivalValid) {
+        if (selectedDeparture.code === selectedArrival.code) {
+            departureInput.classList.add('is-invalid');
+            arrivalInput.classList.add('is-invalid');
             return;
         }
 

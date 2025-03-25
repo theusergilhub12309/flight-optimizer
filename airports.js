@@ -1,0 +1,22 @@
+const airports = [
+    { code: 'JFK', name: 'John F. Kennedy International Airport', city: 'New York' },
+    { code: 'LAX', name: 'Los Angeles International Airport', city: 'Los Angeles' },
+    { code: 'ORD', name: 'O\'Hare International Airport', city: 'Chicago' },
+    { code: 'LHR', name: 'London Heathrow Airport', city: 'London' },
+    { code: 'CDG', name: 'Charles de Gaulle Airport', city: 'Paris' },
+    { code: 'FRA', name: 'Frankfurt Airport', city: 'Frankfurt' },
+    { code: 'DXB', name: 'Dubai International Airport', city: 'Dubai' },
+    { code: 'HKG', name: 'Hong Kong International Airport', city: 'Hong Kong' },
+    { code: 'SIN', name: 'Singapore Changi Airport', city: 'Singapore' },
+    { code: 'NRT', name: 'Narita International Airport', city: 'Tokyo' },
+    { code: 'SFO', name: 'San Francisco International Airport', city: 'San Francisco' },
+    { code: 'MIA', name: 'Miami International Airport', city: 'Miami' },
+    { code: 'SEA', name: 'Seattle-Tacoma International Airport', city: 'Seattle' },
+    { code: 'DFW', name: 'Dallas/Fort Worth International Airport', city: 'Dallas' },
+    { code: 'BOS', name: 'Boston Logan International Airport', city: 'Boston' },
+    { code: 'AMS', name: 'Amsterdam Airport Schiphol', city: 'Amsterdam' },
+    { code: 'BCN', name: 'Barcelona–El Prat Airport', city: 'Barcelona' },
+    { code: 'SYD', name: 'Sydney Airport', city: 'Sydney' },
+    { code: 'YYZ', name: 'Toronto Pearson International Airport', city: 'Toronto' },
+    { code: 'MEX', name: 'Mexico City International Airport', city: 'Mexico City' }
+];
