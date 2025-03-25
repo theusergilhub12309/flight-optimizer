@@ -2,13 +2,60 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('flightSearch');
     const results = document.getElementById('results');
     const flightResults = document.getElementById('flightResults');
+    const loadingSpinner = document.querySelector('.loading-spinner');
+    
+    // Initialize theme
+    const theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // Airport code validation
+    const airportRegex = /^[A-Z]{3}$/;
+    
+    function validateAirportCode(input) {
+        const code = input.value.toUpperCase();
+        input.value = code;
+        const isValid = airportRegex.test(code);
+        input.classList.toggle('is-invalid', !isValid);
+        return isValid;
+    }
+
+    // Add input listeners for airport codes
+    const departureInput = document.getElementById('departure');
+    const arrivalInput = document.getElementById('arrival');
+
+    [departureInput, arrivalInput].forEach(input => {
+        input.addEventListener('input', () => validateAirportCode(input));
+    });
+
+    // Theme toggle functionality
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.innerHTML = newTheme === 'dark' ? '☀️' : '🌙';
+        });
+        // Set initial icon
+        themeToggle.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+    }
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
+        // Validate airport codes
+        const isDepartureValid = validateAirportCode(departureInput);
+        const isArrivalValid = validateAirportCode(arrivalInput);
+
+        if (!isDepartureValid || !isArrivalValid) {
+            return;
+        }
+
         // Show loading state
         form.querySelector('button[type="submit"]').disabled = true;
-        form.querySelector('button[type="submit"]').innerHTML = 'Searching...';
+        loadingSpinner.style.display = 'block';
+        results.style.display = 'none';
         
         // Simulate API call with setTimeout
         setTimeout(() => {
@@ -16,9 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const mockFlights = generateMockFlights();
             displayResults(mockFlights);
             
-            // Reset button state
+            // Reset states
             form.querySelector('button[type="submit"]').disabled = false;
-            form.querySelector('button[type="submit"]').innerHTML = 'Search Flights';
+            loadingSpinner.style.display = 'none';
+            results.style.display = 'block';
         }, 1500);
     });
 
@@ -88,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <small class="text-muted">${flight.departure}</small>
                                 </div>
                                 <div class="text-center">
+                                    <div class="flight-duration">Duration: ~6h 30m</div>
                                     <i class="fas fa-plane mx-3"></i>
                                 </div>
                                 <div class="text-center">

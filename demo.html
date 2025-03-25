@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwareFlights Demo - Find Your Award Flight</title>
+    <title>LTVAwardFlights Demo - Find Your Award Flight</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="index.html">AwareFlights</a>
+            <a class="navbar-brand" href="index.html">LTVAwardFlights</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,6 +23,7 @@
                         <a class="nav-link active" href="demo.html">Try Demo</a>
                     </li>
                 </ul>
+                <button class="theme-toggle ms-auto">🌙</button>
             </div>
         </div>
     </nav>
@@ -35,11 +36,13 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="departure" class="form-label">Departure Airport</label>
-                            <input type="text" class="form-control" id="departure" placeholder="e.g., JFK" required>
+                            <input type="text" class="form-control" id="departure" placeholder="e.g., JFK" required maxlength="3">
+                            <div class="invalid-feedback">Please enter a valid 3-letter airport code (e.g., JFK)</div>
                         </div>
                         <div class="col-md-6">
                             <label for="arrival" class="form-label">Arrival Airport</label>
-                            <input type="text" class="form-control" id="arrival" placeholder="e.g., LHR" required>
+                            <input type="text" class="form-control" id="arrival" placeholder="e.g., LHR" required maxlength="3">
+                            <div class="invalid-feedback">Please enter a valid 3-letter airport code (e.g., LHR)</div>
                         </div>
                         
                         <div class="col-md-6">
@@ -77,6 +80,8 @@
                     </div>
                 </form>
 
+                <div class="loading-spinner mt-4"></div>
+                
                 <div id="results" class="mt-5" style="display: none;">
                     <h3 class="mb-4">Available Award Flights</h3>
                     <div id="flightResults" class="row g-4">
@@ -89,7 +94,7 @@
 
     <footer class="footer bg-light py-4 mt-5">
         <div class="container text-center">
-            <p>© 2025 AwareFlights. All rights reserved.</p>
+            <p>© 2025 LTVAwardFlights. All rights reserved.</p>
         </div>
     </footer>
 

@@ -1,4 +1,4 @@
-# AwareFlights - Award Flight Optimization Tool
+# LTVAwardFlights - Award Flight Optimization Tool
 
 A modern web application that helps users find award flight availability based on their preferences and loyalty programs.
 
