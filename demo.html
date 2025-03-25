@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AwareFlights Demo - Find Your Award Flight</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">AwareFlights</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="demo.html">Try Demo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Search Award Flights</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form id="flightSearch" class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="departure" class="form-label">Departure Airport</label>
+                            <input type="text" class="form-control" id="departure" placeholder="e.g., JFK" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="arrival" class="form-label">Arrival Airport</label>
+                            <input type="text" class="form-control" id="arrival" placeholder="e.g., LHR" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="month" class="form-label">Travel Month</label>
+                            <input type="month" class="form-control" id="month" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tripLength" class="form-label">Trip Length (days)</label>
+                            <input type="number" class="form-control" id="tripLength" min="1" max="30" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="cabinClass" class="form-label">Cabin Class</label>
+                            <select class="form-select" id="cabinClass" required>
+                                <option value="">Choose...</option>
+                                <option value="economy">Economy</option>
+                                <option value="business">Business</option>
+                                <option value="first">First</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="loyaltyProgram" class="form-label">Loyalty Program</label>
+                            <select class="form-select" id="loyaltyProgram" required>
+                                <option value="">Choose...</option>
+                                <option value="united">United MileagePlus</option>
+                                <option value="american">American AAdvantage</option>
+                                <option value="delta">Delta SkyMiles</option>
+                                <option value="alaska">Alaska Mileage Plan</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Search Flights</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="results" class="mt-5" style="display: none;">
+                    <h3 class="mb-4">Available Award Flights</h3>
+                    <div id="flightResults" class="row g-4">
+                        <!-- Results will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer bg-light py-4 mt-5">
+        <div class="container text-center">
+            <p>© 2025 AwareFlights. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
